@@ -1,27 +1,50 @@
 // --- 1. MAP CONFIGURATION (Leaflet.js) ---
-const map = L.map('map').setView([12.8797, 121.7740], 5);
+// Set view to center of Philippines with zoom level appropriate for whole country
+const map = L.map('map', {
+    center: [12.8797, 121.7740], // Center of Philippines
+    zoom: 6, // Zoom level to show entire Philippines
+    minZoom: 5, // Minimum zoom (prevents zooming out too far)
+    maxZoom: 18, // Maximum zoom
+    maxBounds: [ // Restrict map to Philippines area
+        [4.0, 116.0], // Southwest coordinates (lower left)
+        [21.0, 128.0] // Northeast coordinates (upper right)
+    ],
+    maxBoundsViscosity: 1.0 // Lock the bounds completely
+}).setView([12.8797, 121.7740], 6);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
+// Optional: Add a semi-transparent overlay to dim areas outside Philippines
+// This creates a better visual focus on the Philippines
+const southWest = L.latLng(4.0, 116.0);
+const northEast = L.latLng(21.0, 128.0);
+const bounds = L.latLngBounds(southWest, northEast);
+
+// Only allow panning within Philippines bounds
+map.setMaxBounds(bounds);
+map.on('drag', function() {
+    map.panInsideBounds(bounds, { animate: false });
+});
+
 const focalPoints = [
     {
         name: "Joseph Lapinid",
         role: "Mindanao",
-        coords: [7.1907, 125.4553],
+        coords: [7.1907, 125.4553], // Davao area
         phone: "09307661916"
     },
     {
         name: "Raph Japuz Focal",
         role: "Visayas",
-        coords: [11.0000, 123.0000],
+        coords: [11.0000, 123.0000], // Central Visayas
         phone: "09649799427"
     },
     {
         name: "James Toregossa",
         role: "Luzon",
-        coords: [15.0000, 120.5000],
+        coords: [15.0000, 120.5000], // Central Luzon
         phone: "09231041877"
     }
 ];
@@ -32,6 +55,8 @@ focalPoints.forEach(person => {
         .bindPopup(`<b>${person.name}</b><br>${person.role}<br>${person.phone}`);
 });
 
+// Optional: Add a subtle outline of Philippines (if you have GeoJSON data)
+// You can add this later by including a Philippines GeoJSON file
 
 // --- 2. NEON DB CONNECTION (Via API) ---
 async function fetchDatabaseStats() {
