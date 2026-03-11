@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Response Command Center</title>
+    <meta name="description" content="Emergency Response Command Center – real-time monitoring and resource allocation for the Philippines.">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">EMERGENCY<span class="highlight">RESPONSE</span></div>
+        <div class="status">
+            <span class="status-dot" aria-hidden="true"></span> SYSTEM ONLINE
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>COORDINATION HUB</h1>
+            <p>Real-time monitoring and resource allocation for Luzon, Visayas, and Mindanao.</p>
+            <button class="cta-btn">INITIATE PROTOCOL</button>
+        </div>
+    </header>
+
+    <section class="map-section">
+        <div class="section-header">
+            <h2>Live Operations Map</h2>
+            <p>Current Focal Person Locations</p>
+        </div>
+        <div id="map"></div>
+    </section>
+
+    <section class="team-section">
+        <div class="section-header">
+            <h2>Command Personnel</h2>
+        </div>
+        <div class="team-grid">
+            <div class="card">
+                <div class="card-icon">📍</div>
+                <h3>Joseph Lapinid</h3>
+                <p class="role">Focal Person: Mindanao</p>
+                <p class="contact"><a href="tel:+639307661916">09307661916</a></p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📍</div>
+                <h3>Raph Japuz Focal</h3>
+                <p class="role">Focal Person: Visayas</p>
+                <p class="contact"><a href="tel:+639649799427">09649799427</a></p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📍</div>
+                <h3>James Toregossa</h3>
+                <p class="role">Focal Person: Luzon</p>
+                <p class="contact"><a href="tel:+639231041877">09231041877</a></p>
+            </div>
+        </div>
+    </section>
+
+    <section class="database-section">
+        <div class="section-header">
+            <h2>Live Incident Logs</h2>
+            <p>Connected to NeonDB</p>
+        </div>
+        
+        <div class="stats-container">
+            <div class="stat-box">
+                <h3>Red Alerts</h3>
+                <p id="stat-red">0</p>
+            </div>
+            <div class="stat-box">
+                <h3>Orange Alerts</h3>
+                <p id="stat-orange">0</p>
+            </div>
+            <div class="stat-box">
+                <h3>Yellow Alerts</h3>
+                <p id="stat-yellow">0</p>
+            </div>
+        </div>
+        
+        <div class="incident-table-container">
+            <table class="incident-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Code</th>
+                        <th scope="col">Section</th>
+                        <th scope="col">Building</th>
+                        <th scope="col">Floor</th>
+                    </tr>
+                </thead>
+                <tbody id="incident-rows">
+                    <!-- Data will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="log-console" id="console-log">
+            <!-- Logs will appear here -->
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Emergency Response System. Secure Connection.</p>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>
