@@ -1,6 +1,6 @@
 // api/incident.js
 export default async function handler(req, res) {
-    // Allow requests from your ESP32
+    // Set CORS headers (though vercel.json already handles it)
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -26,30 +26,46 @@ export default async function handler(req, res) {
             });
         }
 
-        // Get current date and time in Philippines (UTC+8)
+        // Validate severity
+        const validSeverities = ['Yellow', 'Orange', 'Red'];
+        if (!validSeverities.includes(severity_code)) {
+            return res.status(400).json({ error: 'Invalid severity code' });
+        }
+
+        // Get Philippines time (UTC+8)
         const now = new Date();
         const phTime = new Date(now.getTime() + (8 * 60 * 60 * 1000));
         const incident_date = phTime.toISOString().split('T')[0];
         const incident_time = phTime.toTimeString().split(' ')[0];
 
-        // Prepare the data with FIXED values
-        const incidentData = {
-            incident_date: incident_date,
-            incident_time: incident_time,
-            severity_code: severity_code,
+        // Here you would insert into your database
+        // Since you already have a database connection in your website,
+        // you can use the same connection method
+        
+        console.log('📥 Incident received:', {
+            date: incident_date,
+            time: incident_time,
+            severity: severity_code,
+            description: description,
             section: 'Lemon',
             building: '17',
-            floor: '1',
-            description: description
-        };
-
-        console.log('Received incident:', incidentData);
+            floor: '1'
+        });
 
         // Return success
         res.status(201).json({
             success: true,
-            message: 'Incident received',
-            data: incidentData
+            message: 'Incident recorded',
+            data: {
+                id: Date.now(), // temporary ID until you add database
+                timestamp: `${incident_date} ${incident_time}`,
+                severity: severity_code,
+                location: {
+                    section: 'Lemon',
+                    building: '17',
+                    floor: '1'
+                }
+            }
         });
 
     } catch (error) {
